@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  neo4j:
+    image: neo4j:4.1.3
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/logs:/logs
+    environment:
+      - NEO4J_AUTH=neo4j/test
+    ports:
+      - 7474:7474
+      - 7687:7687

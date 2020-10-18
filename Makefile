@@ -37,6 +37,6 @@ lint: build
 
 .PHONY: test
 test: build
-	docker run --rm  -it\
+	docker run --rm \
 		-v $(realpath ./tests):/src/tests \
 		${DOCKER_IMAGE} -m pytest tests

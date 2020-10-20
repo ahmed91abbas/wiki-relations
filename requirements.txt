@@ -3,3 +3,5 @@ neo4j==4.1.1
 mock==4.0.2
 pytest==6.1.1
 flake8==3.8.4
+spacy==2.3.2
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz#egg=en_core_web_sm

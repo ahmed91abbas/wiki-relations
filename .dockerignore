@@ -2,3 +2,4 @@ neo4j
 .git
 **__pycache__
 **.pytest_cache
+**outdata

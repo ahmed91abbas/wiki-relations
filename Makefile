@@ -24,6 +24,14 @@ create-graph:
 clean-graph:
 	COMMAND=clean-graph docker-compose up -d --build
 
+.PHONY: find-relations
+find-relations: build
+	mkdir -p outdata
+	touch $(realpath ./outdata)/spacy.html
+	docker run --rm \
+	-v $(realpath ./outdata)/spacy.html:/src/spacy.html \
+	${DOCKER_IMAGE} main.py find-relations
+
 # code related
 
 .PHONY: build

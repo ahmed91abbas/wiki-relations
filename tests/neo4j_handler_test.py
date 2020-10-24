@@ -2,6 +2,7 @@ import os
 import sys
 import unittest
 import mock
+from neo4j import exceptions
 
 sys.path.append(os.path.abspath('..'))
 from neo4j_handler import Neo4j_handler
@@ -13,15 +14,39 @@ class Test_neo4j_handler(unittest.TestCase):
     def setUp(self, mock_driver):
         self.gdb = Neo4j_handler('', '', '')
 
-    @mock.patch('neo4j_handler.GraphDatabase.driver')
-    def test_that_init_creates_driver_with_correct_args(self, mock_driver):
+    @mock.patch.object(Neo4j_handler, 'connect_to_database_with_retry')
+    def test_that_init_calls_connect_to_database_with_retry_with_correct_args(self, mock_connect):
         uri = 'foo.com'
         user = 'foo'
         password = 'bar'
 
         Neo4j_handler(uri, user, password)
 
+        mock_connect.assert_called_once_with(uri, user, password, max_retry_count=5)
+
+    @mock.patch('neo4j_handler.GraphDatabase.driver')
+    def test_that_connect_to_database_with_retry_returns_gdb_driver(self, mock_driver):
+        uri = 'foo.com'
+        user = 'foo'
+        password = 'bar'
+        driver = 'fake driver'
+        mock_driver.return_value = driver
+
+        actual = self.gdb.connect_to_database_with_retry(uri, user, password)
+
         mock_driver.assert_called_once_with(uri, auth=(user, password))
+        self.assertEqual(driver, actual)
+
+    @mock.patch('neo4j_handler.time.sleep')
+    @mock.patch('neo4j_handler.GraphDatabase.driver')
+    def test_that_connect_to_database_with_retry_returns_None_after_retry_count(self, mock_driver, mock_sleep):
+        max_retry_count = 3
+        mock_driver.side_effect = exceptions.ServiceUnavailable
+
+        actual = self.gdb.connect_to_database_with_retry('', '', '', max_retry_count=max_retry_count)
+
+        self.assertEqual(mock_driver.call_count, max_retry_count)
+        self.assertEqual(None, actual)
 
     @mock.patch('neo4j_handler.GraphDatabase.driver')
     def test_that_close_calls_driver_close_once(self, mock_driver):

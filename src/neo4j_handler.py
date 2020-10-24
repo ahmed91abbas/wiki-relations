@@ -1,10 +1,22 @@
+import time
 from neo4j import GraphDatabase
+from neo4j import exceptions
 
 
 class Neo4j_handler:
 
     def __init__(self, uri, user, password):
-        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+        self.driver = self.connect_to_database_with_retry(uri, user, password, max_retry_count=5)
+
+    def connect_to_database_with_retry(self, uri, user, password, max_retry_count=1):
+        while True:
+            try:
+                return GraphDatabase.driver(uri, auth=(user, password))
+            except exceptions.ServiceUnavailable:
+                max_retry_count -= 1
+                if max_retry_count == 0:
+                    return None
+                time.sleep(3)
 
     def close(self):
         self.driver.close()

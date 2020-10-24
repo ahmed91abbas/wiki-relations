@@ -48,14 +48,7 @@ class Test_neo4j_handler(unittest.TestCase):
         self.assertEqual(mock_driver.call_count, max_retry_count)
         self.assertEqual(None, actual)
 
-    @mock.patch('neo4j_handler.GraphDatabase.driver')
-    def test_that_close_calls_driver_close_once(self, mock_driver):
-        self.gdb.close()
-
-        self.gdb.driver.close.assert_called_once()
-
-    @mock.patch('neo4j_handler.GraphDatabase.driver')
-    def test_that_close_calls_driver_close_once(self, mock_driver):
+    def test_that_close_calls_driver_close_once(self):
         self.gdb.close()
 
         self.gdb.driver.close.assert_called_once()

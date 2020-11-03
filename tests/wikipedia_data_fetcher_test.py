@@ -1,21 +1,21 @@
 import os
 import sys
-import unittest
+from unittest import TestCase
+from unittest.mock import patch
 
-import mock
 import wikipedia
 
 sys.path.append(os.path.abspath('..'))
 from wikipedia_data_fetcher import Wikipedia_data_fetcher
 
 
-class Test_wikipedia_data_fetcher(unittest.TestCase):
+class Test_wikipedia_data_fetcher(TestCase):
 
     def setUp(self):
         self.fetcher = Wikipedia_data_fetcher()
 
-    @mock.patch('wikipedia_data_fetcher.wikipedia.page')
-    @mock.patch.object(Wikipedia_data_fetcher, 'chunk_page_content')
+    @patch('wikipedia_data_fetcher.wikipedia.page')
+    @patch.object(Wikipedia_data_fetcher, 'chunk_page_content')
     def test_that_get_article_returns_correct_result(self, mock_chunk_page_content,
                                                      mock_wikipedia_page):
         url = 'fake url'
@@ -33,7 +33,7 @@ class Test_wikipedia_data_fetcher(unittest.TestCase):
 
         self.assertDictEqual(expected, actual)
 
-    @mock.patch('wikipedia_data_fetcher.wikipedia.page')
+    @patch('wikipedia_data_fetcher.wikipedia.page')
     def test_that_get_article_returns_empty_dict_on_page_error(self, mock_wikipedia_page):
         page_error = wikipedia.exceptions.PageError('fake page id')
         mock_wikipedia_page.side_effect = page_error

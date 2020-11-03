@@ -1,21 +1,21 @@
 import os
 import sys
-import unittest
+from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
-import mock
 from neo4j import exceptions
 
 sys.path.append(os.path.abspath('..'))
 from neo4j_handler import Neo4j_handler
 
 
-class Test_neo4j_handler(unittest.TestCase):
+class Test_neo4j_handler(TestCase):
 
-    @mock.patch('neo4j_handler.GraphDatabase.driver')
+    @patch('neo4j_handler.GraphDatabase.driver')
     def setUp(self, mock_driver):
         self.gdb = Neo4j_handler('', '', '')
 
-    @mock.patch.object(Neo4j_handler, 'connect_to_database_with_retry')
+    @patch.object(Neo4j_handler, 'connect_to_database_with_retry')
     def test_that_init_calls_connect_to_database_with_retry_with_correct_args(self, mock_connect):
         uri = 'foo.com'
         user = 'foo'
@@ -25,7 +25,7 @@ class Test_neo4j_handler(unittest.TestCase):
 
         mock_connect.assert_called_once_with(uri, user, password, max_retry_count=5)
 
-    @mock.patch('neo4j_handler.GraphDatabase.driver')
+    @patch('neo4j_handler.GraphDatabase.driver')
     def test_that_connect_to_database_with_retry_returns_gdb_driver(self, mock_driver):
         uri = 'foo.com'
         user = 'foo'
@@ -38,8 +38,8 @@ class Test_neo4j_handler(unittest.TestCase):
         mock_driver.assert_called_once_with(uri, auth=(user, password))
         self.assertEqual(driver, actual)
 
-    @mock.patch('neo4j_handler.time.sleep')
-    @mock.patch('neo4j_handler.GraphDatabase.driver')
+    @patch('neo4j_handler.time.sleep')
+    @patch('neo4j_handler.GraphDatabase.driver')
     def test_that_connect_to_database_with_retry_returns_None_after_retry_count(self, mock_driver, mock_sleep):
         max_retry_count = 3
         mock_driver.side_effect = exceptions.ServiceUnavailable
@@ -55,7 +55,7 @@ class Test_neo4j_handler(unittest.TestCase):
         self.gdb.driver.close.assert_called_once()
 
     def test_that_create_node_runs_correct_query(self):
-        tx = mock.MagicMock()
+        tx = MagicMock()
         qid = 'foo'
         name = 'bar'
         url = 'baz'
@@ -66,7 +66,7 @@ class Test_neo4j_handler(unittest.TestCase):
                                        qid=qid, name=name, url=url)
 
     def test_that_create_directed_edge_runs_correct_query(self):
-        tx = mock.MagicMock()
+        tx = MagicMock()
         from_qid = 'foo'
         to_qid = 'bar'
         relation = 'baz'
@@ -83,7 +83,7 @@ class Test_neo4j_handler(unittest.TestCase):
                                        relation_url=relation_url)
 
     def test_that_clean_gdb_runs_correct_query(self):
-        tx = mock.MagicMock()
+        tx = MagicMock()
 
         self.gdb._clean_gdb(tx)
 

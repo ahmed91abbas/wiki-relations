@@ -1,6 +1,6 @@
 import time
-from neo4j import GraphDatabase
-from neo4j import exceptions
+
+from neo4j import GraphDatabase, exceptions
 
 
 class Neo4j_handler:

@@ -1,4 +1,5 @@
 import os
+
 import click
 from neo4j_handler import Neo4j_handler
 from relations_finder import Relations_finder

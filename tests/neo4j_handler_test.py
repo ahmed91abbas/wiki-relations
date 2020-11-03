@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+
 import mock
 from neo4j import exceptions
 

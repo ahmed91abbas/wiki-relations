@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+
 import mock
 import wikipedia
 

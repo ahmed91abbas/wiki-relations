@@ -21,3 +21,18 @@ services:
       - NEO4J_URI=neo4j://neo4j:7687
     depends_on:
       - neo4j
+
+  # ui:
+  #   build: .
+  #   command: [""]
+  #   environment:
+  #     - NEO4J_USERNAME=neo4j
+  #     - NEO4J_PASSWORD=test
+  #     - NEO4J_BOLT_URI=bolt://localhost:7687
+  #     - UI_PORT=8000
+  #     - UI_HOST=0.0.0.0
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - neo4j
+  #     - main

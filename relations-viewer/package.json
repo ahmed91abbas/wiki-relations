@@ -1,0 +1,33 @@
+{
+  "name": "relations-viewer",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "lint": "npx standard",
+    "lint:fix": "yarn run lint --fix"
+  },
+  "dependencies": {
+    "neovis.js": "^1.6.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-resize-aware": "^3.0.1",
+    "react-scripts": "3.4.3"
+  },
+  "devDependencies": {
+    "standard": "^16.0.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

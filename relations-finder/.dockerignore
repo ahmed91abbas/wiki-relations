@@ -1,5 +1,3 @@
-neo4j
-.git
+**.vscode
 **__pycache__
 **.pytest_cache
-**outdata

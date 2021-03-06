@@ -13,7 +13,7 @@ services:
       - 7687:7687
 
   main:
-    build: .
+    build: ./relations-finder
     command: ["main.py", "${COMMAND:---help}"]
     environment:
       - NEO4J_USERNAME=neo4j

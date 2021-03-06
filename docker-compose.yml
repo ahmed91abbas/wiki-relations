@@ -28,7 +28,7 @@ services:
     volumes:
       - ./relations-viewer/src:/app/src
     environment:
-      - REACT_APP_NEO4J_USERNAME=neo4j
+      - REACT_APP_NEO4J_USER=neo4j
       - REACT_APP_NEO4J_PASSWORD=test
       - REACT_APP_NEO4J_URI=bolt://localhost:7687
     ports:

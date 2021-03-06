@@ -10,6 +10,12 @@ lint: build
 	docker run --rm \
 		${DOCKER_IMAGE} -m flake8
 
+.PHONY: isort
+isort: build
+	docker run --rm \
+		-v $(realpath ./src):/src \
+		${DOCKER_IMAGE} -m isort .
+
 .PHONY: test
 test: build
 	docker run --rm \

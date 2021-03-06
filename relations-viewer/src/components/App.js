@@ -1,9 +1,9 @@
 import React from 'react'
 import { ResponsiveNeoGraph, reload, stabilize } from './NeoGraph'
 
-const NEO4J_URI = 'bolt://localhost:7687'
-const NEO4J_USER = 'neo4j'
-const NEO4J_PASSWORD = 'test'
+const NEO4J_URI = process.env.REACT_APP_NEO4J_URI
+const NEO4J_USER = process.env.REACT_APP_NEO4J_USER
+const NEO4J_PASSWORD = process.env.REACT_APP_NEO4J_PASSWORD
 
 const App = () => {
   return (

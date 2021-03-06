@@ -15,3 +15,7 @@ lint-fix: build
 	docker run --rm \
 		-v $(realpath ./src):/app/src \
 		${DOCKER_IMAGE} lint:fix
+
+.PHONY: test
+test:
+	echo todo

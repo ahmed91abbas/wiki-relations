@@ -1,4 +1,2 @@
 neo4j
-__pycache__
-.pytest_cache
 outdata

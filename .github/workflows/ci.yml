@@ -6,13 +6,18 @@ jobs:
   code-checks:
     name: Code Checks
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - relations-finder
+          - relations-viewer
     steps:
       - uses: actions/checkout@main
       - run: git fetch
       - name: lint
-        run: make lint
+        run: make -C ${{ matrix.service }} lint
       - name: test
-        run: make test
+        run: make -C ${{ matrix.service }} test
   general-checks:
     name: Lint Code Base
     runs-on: ubuntu-latest

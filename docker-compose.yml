@@ -45,8 +45,9 @@ services:
       - REACT_APP_NEO4J_USER=neo4j
       - REACT_APP_NEO4J_PASSWORD=test
       - REACT_APP_NEO4J_URI=bolt://localhost:7687
+      - REACT_APP_RELATIONS_FINDER_URI=http://localhost:3001
     ports:
       - 3000:3000
     depends_on:
       - neo4j
-      - main
+      - relations-finder

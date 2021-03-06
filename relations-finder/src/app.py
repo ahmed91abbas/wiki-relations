@@ -2,12 +2,15 @@ import json
 import os
 
 from flask import Flask, request, Response
+from flask_cors import CORS
 from neo4j_handler import Neo4j_handler
 from relations_finder import Relations_finder
 from wikipedia_data_fetcher import Wikipedia_data_fetcher
 
 
 app = Flask(__name__)
+CORS(app)
+
 wiki = Wikipedia_data_fetcher()
 finder = Relations_finder()
 gdb = Neo4j_handler(os.environ['NEO4J_URI'], os.environ['NEO4J_USERNAME'],

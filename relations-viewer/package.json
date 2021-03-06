@@ -4,10 +4,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "npx standard",
+    "lint": "standard",
     "lint:fix": "yarn run lint --fix"
   },
   "dependencies": {
+    "isomorphic-fetch": "^3.0.0",
     "neovis.js": "^1.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -17,6 +18,9 @@
   },
   "devDependencies": {
     "standard": "^16.0.3"
+  },
+  "standard": {
+    "globals": [ "fetch" ]
   },
   "browserslist": {
     "production": [

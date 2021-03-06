@@ -90,4 +90,8 @@ function stabilize () {
   vis.stabilize()
 }
 
-export { ResponsiveNeoGraph, reload, stabilize }
+function clearAll () {
+  vis.renderWithCypher('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r')
+}
+
+export { ResponsiveNeoGraph, reload, stabilize, clearAll }

@@ -1,0 +1,72 @@
+@import url('https://www.w3schools.com/w3css/4/w3.css');
+
+.app {
+  font-family: Helvetica, sans-serif;
+  background-color: #cdcaf8;
+}
+
+.button {
+  width: 7%;
+  height: 55px;
+  background-color: #4caf50;
+  color: white;
+  border: 2px solid #20305c;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 7px 6px;
+  cursor: pointer;
+  outline: 0;
+  border-radius: 15px 15px 15px 15px;
+}
+
+.button:hover {
+  background-color: #0e6b9c;
+  color: #cde0eb;
+}
+
+.submit-button {
+  width: 10%;
+  background-color: #b63596;
+  color: #fff;
+}
+
+.input {
+  width: 40%;
+  font-size: 26px;
+  padding: 7px 20px;
+  margin: auto;
+  outline: 0;
+  border-radius: 15px 15px 15px 15px;
+}
+
+.float {
+  float: left;
+}
+
+.padding {
+  padding-left: 10px;
+}
+
+.info {
+  width: 70%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  font-size: 26px;
+}
+
+html {
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll;
+}
+
+.align-right {
+  float: right;
+}

@@ -15,6 +15,7 @@ async function onSubmit (title) {
 
 const App = () => {
   const [input, setInput] = useState('')
+  const infoPreId = 'infoPreId'
   return (
     <div className='App' style={{ fontFamily: 'Quicksand' }}>
       <button onClick={stabilize}>Stabilize</button>
@@ -31,7 +32,9 @@ const App = () => {
         neo4jUser={NEO4J_USER}
         neo4jPassword={NEO4J_PASSWORD}
         backgroundColor='#d3d3d3'
+        infoPreId={infoPreId}
       />
+      <pre id={infoPreId} />
     </div>
   )
 }

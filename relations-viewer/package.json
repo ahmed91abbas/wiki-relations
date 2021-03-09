@@ -1,11 +1,14 @@
 {
   "name": "relations-viewer",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "standard",
-    "lint:fix": "yarn run lint --fix"
+    "lint-css": "stylelint \"**/*.css\"",
+    "lint-js": "standard",
+    "lint": "yarn lint-js && yarn lint-css",
+    "lint:fix": "yarn lint-js --fix && yarn lint-css --fix"
   },
   "dependencies": {
     "isomorphic-fetch": "^3.0.0",
@@ -17,10 +20,14 @@
     "react-scripts": "3.4.3"
   },
   "devDependencies": {
-    "standard": "^16.0.3"
+    "standard": "^16.0.3",
+    "stylelint": "^13.12.0",
+    "stylelint-config-standard": "^21.0.0"
   },
   "standard": {
-    "globals": [ "fetch" ]
+    "globals": [
+      "fetch"
+    ]
   },
   "browserslist": {
     "production": [

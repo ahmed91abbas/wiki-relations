@@ -14,6 +14,12 @@ async function onSubmit (title) {
   reload()
 }
 
+function handleKeyPress (event) {
+  if (event.key === 'Enter') {
+    document.getElementById('submitBtn').click()
+  }
+}
+
 const App = () => {
   const [input, setInput] = useState('')
   const infoPreId = 'infoPreId'
@@ -22,8 +28,8 @@ const App = () => {
     <div className='app'>
       <br /><br />
       <div className='padding'>
-        <input className='input' type='text' placeholder='Enter name' onInput={e => setInput(e.target.value)} />
-        <button className='button submit-button' onClick={() => onSubmit(input)}>Submit</button>
+        <input className='input' type='text' placeholder='Enter name' onKeyPress={handleKeyPress} onInput={e => setInput(e.target.value)} />
+        <button className='button submit-button' id='submitBtn' onClick={() => onSubmit(input)}>Submit</button>
         <button className='button align-right' onClick={clearAll}>Clear all</button>
         <button className='button align-right' onClick={stabilize}>Stabilize</button>
         <pre />

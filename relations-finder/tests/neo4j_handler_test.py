@@ -76,7 +76,7 @@ class Test_neo4j_handler(TestCase):
         self.gdb._create_directed_edge(tx, from_qid, to_qid, relation, sentence, relation_url)
 
         tx.run.assert_called_once_with('MATCH (a:Node),(b:Node) WHERE a.qid = $from_qid AND b.qid = $to_qid '
-                                       f'MERGE (a)-[r:{relation} '
+                                       'MERGE (a)-[r:RELATIONS '
                                        '{ relation:$relation, sentence:$sentence, relation_url:$relation_url }]->(b)'
                                        'RETURN type(r), r.relation',
                                        from_qid=from_qid, to_qid=to_qid, relation=relation, sentence=sentence,

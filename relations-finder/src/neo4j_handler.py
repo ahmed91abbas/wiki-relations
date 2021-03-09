@@ -43,7 +43,7 @@ class Neo4j_handler:
     @staticmethod
     def _create_directed_edge(tx, from_qid, to_qid, relation, sentence, relation_url):
         result = tx.run('MATCH (a:Node),(b:Node) WHERE a.qid = $from_qid AND b.qid = $to_qid '
-                        f'MERGE (a)-[r:{relation} '
+                        'MERGE (a)-[r:RELATIONS '
                         '{ relation:$relation, sentence:$sentence, relation_url:$relation_url }]->(b)'
                         'RETURN type(r), r.relation',
                         from_qid=from_qid, to_qid=to_qid, relation=relation, sentence=sentence,

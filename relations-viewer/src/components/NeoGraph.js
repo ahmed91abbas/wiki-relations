@@ -28,10 +28,23 @@ const NeoGraph = props => {
       arrows: true,
       labels: {
         Node: {
-          caption: 'name'
+          caption: 'name',
+          thickness: 'pagerank',
+          font: {
+            size: 20,
+            color: '#421b75',
+            strokeWidth: 0
+          }
         }
       },
-      initial_cypher: 'Match (n)-[r]->(m) Return n,r,m'
+      relationships: {
+        RELATIONS: {
+          thickness: 'pagerank',
+          sentence: 'sentence',
+          caption: 'relation'
+        }
+      },
+      initial_cypher: 'Match (n)-[r:RELATIONS]->(m) Return *'
     }
     vis = new Neovis(config)
     vis.registerOnEvent('completed', () => {

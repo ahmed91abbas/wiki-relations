@@ -26,6 +26,11 @@ const NeoGraph = props => {
       server_user: neo4jUser,
       server_password: neo4jPassword,
       arrows: true,
+      labels: {
+        Node: {
+          caption: 'name'
+        }
+      },
       initial_cypher: 'Match (n)-[r]->(m) Return n,r,m'
     }
     vis = new Neovis(config)

@@ -35,14 +35,14 @@ class Neo4j_handler:
 
     @staticmethod
     def _create_node(tx, qid, name, url):
-        result = tx.run('MERGE (a:Person {qid:$qid}) '
+        result = tx.run('MERGE (a:Node {qid:$qid}) '
                         'SET a.name = $name '
                         'SET a.url = $url', qid=qid, name=name, url=url)
         return result
 
     @staticmethod
     def _create_directed_edge(tx, from_qid, to_qid, relation, sentence, relation_url):
-        result = tx.run('MATCH (a:Person),(b:Person) WHERE a.qid = $from_qid AND b.qid = $to_qid '
+        result = tx.run('MATCH (a:Node),(b:Node) WHERE a.qid = $from_qid AND b.qid = $to_qid '
                         f'MERGE (a)-[r:{relation} '
                         '{ relation:$relation, sentence:$sentence, relation_url:$relation_url }]->(b)'
                         'RETURN type(r), r.relation',

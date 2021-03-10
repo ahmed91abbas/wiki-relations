@@ -25,7 +25,7 @@ class Test_relations_finder(TestCase):
             'objects': ['Bar'],
             'relation': 'influence',
             'sentence': sentence,
-            'subject': 'Foo'
+            'subject': 'Foo Bar'
         }
 
         actual = self.finder.find_relations(self.data)['relations'][0]

@@ -139,8 +139,8 @@ function doubleClickHandler (event) {
   }
 }
 
-function reload () {
-  vis.renderWithCypher('Match (n)-[r]->(m) Return n,r,m')
+function showAll () {
+  vis.renderWithCypher('Match (n)-[r]->(m) Return *')
 }
 
 function stabilize () {
@@ -151,4 +151,12 @@ function clearAll () {
   vis.renderWithCypher('MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n, r')
 }
 
-export { ResponsiveNeoGraph, reload, stabilize, clearAll }
+function hideAll (name) {
+  vis.clearNetwork()
+}
+
+function updateGraph (name) {
+  vis.updateWithCypher(`MATCH (n {name:"${name}"})-[*]-(connected) Match ()-[r:RELATIONS]->() Return *`)
+}
+
+export { ResponsiveNeoGraph, showAll, stabilize, clearAll, hideAll, updateGraph }

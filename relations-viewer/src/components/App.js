@@ -2,16 +2,15 @@ import React, { useState } from 'react'
 import './App.css'
 
 import getRelations from '../api/relationsFinderApi'
-import { ResponsiveNeoGraph, reload, stabilize, clearAll } from './NeoGraph'
+import { ResponsiveNeoGraph, showAll, stabilize, clearAll, hideAll, updateGraph } from './NeoGraph'
 
 const NEO4J_URI = process.env.REACT_APP_NEO4J_URI
 const NEO4J_USER = process.env.REACT_APP_NEO4J_USER
 const NEO4J_PASSWORD = process.env.REACT_APP_NEO4J_PASSWORD
 
 async function onSubmit (title) {
-  clearAll()
-  await getRelations(title)
-  reload()
+  const response = await getRelations(title)
+  updateGraph(response.subject)
 }
 
 function handleKeyPress (event) {
@@ -31,6 +30,8 @@ const App = () => {
         <input className='input' type='text' placeholder='Enter name' onKeyPress={handleKeyPress} onInput={e => setInput(e.target.value)} />
         <button className='button submit-button' id='submitBtn' onClick={() => onSubmit(input)}>Submit</button>
         <button className='button align-right' onClick={clearAll}>Clear all</button>
+        <button className='button align-right' onClick={showAll}>Show all</button>
+        <button className='button align-right' onClick={hideAll}>Hide all</button>
         <button className='button align-right' onClick={stabilize}>Stabilize</button>
         <pre />
       </div>

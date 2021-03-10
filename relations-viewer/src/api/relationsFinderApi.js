@@ -11,5 +11,5 @@ export default async function submitRequest (title) {
     },
     body: JSON.stringify({ title: title })
   })
-  console.log(response)
+  return response.json()
 }

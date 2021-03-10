@@ -72,14 +72,14 @@ class Relations_finder:
         for child in token.rights:
             if child.dep_ == 'compound':
                 compound_form = f'{compound_form} {child.text}'
+        if compound_form.lower() in self.subject.lower().split(' '):
+            return self.subject
         return compound_form
 
     def get_proper_subject(self, token):
         if token.pos_ == 'PRON':
             return self.subject
         name = self.get_compound_form(token)
-        if name.lower() in self.subject.lower().split(' '):
-            return self.subject
         return name
 
     def generate_html(self, nlp_doc):

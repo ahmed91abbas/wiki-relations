@@ -62,7 +62,7 @@ class Test_neo4j_handler(TestCase):
 
         self.gdb._create_node(tx, qid, name, url)
 
-        tx.run.assert_called_once_with('MERGE (a:Person {qid:$qid}) SET a.name = $name SET a.url = $url',
+        tx.run.assert_called_once_with('MERGE (a:Node {qid:$qid}) SET a.name = $name SET a.url = $url',
                                        qid=qid, name=name, url=url)
 
     def test_that_create_directed_edge_runs_correct_query(self):
@@ -75,8 +75,8 @@ class Test_neo4j_handler(TestCase):
 
         self.gdb._create_directed_edge(tx, from_qid, to_qid, relation, sentence, relation_url)
 
-        tx.run.assert_called_once_with('MATCH (a:Person),(b:Person) WHERE a.qid = $from_qid AND b.qid = $to_qid '
-                                       f'MERGE (a)-[r:{relation} '
+        tx.run.assert_called_once_with('MATCH (a:Node),(b:Node) WHERE a.qid = $from_qid AND b.qid = $to_qid '
+                                       'MERGE (a)-[r:RELATIONS '
                                        '{ relation:$relation, sentence:$sentence, relation_url:$relation_url }]->(b)'
                                        'RETURN type(r), r.relation',
                                        from_qid=from_qid, to_qid=to_qid, relation=relation, sentence=sentence,

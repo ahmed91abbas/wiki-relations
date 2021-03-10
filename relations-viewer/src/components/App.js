@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './App.css'
 
 import getRelations from '../api/relationsFinderApi'
 import { ResponsiveNeoGraph, reload, stabilize, clearAll } from './NeoGraph'
@@ -13,25 +14,34 @@ async function onSubmit (title) {
   reload()
 }
 
+function handleKeyPress (event) {
+  if (event.key === 'Enter') {
+    document.getElementById('submitBtn').click()
+  }
+}
+
 const App = () => {
   const [input, setInput] = useState('')
+  const infoPreId = 'infoPreId'
+  document.body.className = 'app'
   return (
-    <div className='App' style={{ fontFamily: 'Quicksand' }}>
-      <button onClick={stabilize}>Stabilize</button>
-      <button onClick={clearAll}>Clear all</button>
-      <h2>Person name:</h2>
-      <input type='text' onInput={e => setInput(e.target.value)} style={{ width: '40%' }} />
-      <button onClick={() => onSubmit(input)} style={{ width: '10%' }}>
-        Submit
-      </button>
-      <pre />
+    <div className='app'>
+      <br /><br />
+      <div className='padding'>
+        <input className='input' type='text' placeholder='Enter name' onKeyPress={handleKeyPress} onInput={e => setInput(e.target.value)} />
+        <button className='button submit-button' id='submitBtn' onClick={() => onSubmit(input)}>Submit</button>
+        <button className='button align-right' onClick={clearAll}>Clear all</button>
+        <button className='button align-right' onClick={stabilize}>Stabilize</button>
+        <pre />
+      </div>
       <ResponsiveNeoGraph
         containerId='neovis'
         neo4jUri={NEO4J_URI}
         neo4jUser={NEO4J_USER}
         neo4jPassword={NEO4J_PASSWORD}
-        backgroundColor='#d3d3d3'
+        infoPreId={infoPreId}
       />
+      <pre className='padding info' id={infoPreId} />
     </div>
   )
 }

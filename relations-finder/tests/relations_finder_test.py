@@ -231,6 +231,7 @@ class Test_relations_finder(TestCase):
         right_child = MagicMock()
         left_child.dep_ = 'compound'
         right_child.dep_ = 'compound'
+        token.pos_ = left_child.pos_ = right_child.pos_ = 'fake pos'
         left_text = 'foo'
         token_text = 'bar'
         right_text = 'baz'

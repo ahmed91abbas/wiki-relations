@@ -3,6 +3,7 @@ Flask-Cors==3.0.10
 click==7.1.2
 neo4j==4.1.1
 pytest==6.1.1
+parameterized==0.8.1
 flake8==3.8.4
 wikipedia==1.4.0
 spacy==2.3.2

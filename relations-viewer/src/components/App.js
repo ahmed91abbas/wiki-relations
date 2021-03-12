@@ -18,7 +18,9 @@ async function onSubmit (title) {
   element.classList.add('is-loading')
   const response = await getRelations(title)
   element.classList.remove('is-loading')
-  updateGraph(response.subject)
+  if (response) {
+    updateGraph(response.subject)
+  }
 }
 
 function handleKeyPress (event) {

@@ -1,7 +1,7 @@
 require('isomorphic-fetch')
 
 export default async function submitRequest (title) {
-  if (title === '') return
+  if (title === '') return false
   const url = `${process.env.REACT_APP_RELATIONS_FINDER_URI}/relations-finder`
 
   const response = await fetch(url, {
@@ -11,5 +11,9 @@ export default async function submitRequest (title) {
     },
     body: JSON.stringify({ title: title })
   })
-  return response.json()
+
+  if (response.status === 200) {
+    return response.json()
+  }
+  return false
 }

@@ -15,6 +15,7 @@ To run the project simply run the following command at the root folder of the pr
 ```bash
 docker-compose up -d --build
 ```
+Now you can access the UI from you browser on <http://localhost:3000>.
 
 ## How does it work
 1. User submits a name that they wish to build the relation graph for

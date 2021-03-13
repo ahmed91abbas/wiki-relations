@@ -7,6 +7,11 @@ class Relations_finder:
         self.subject = ''
         self.nlp = en_core_web_sm.load()
 
+    def generate_html(self, nlp_doc):
+        html = displacy.render([nlp_doc], style="dep", page=True)
+        with open('spacy.html', 'w') as out_file:
+            out_file.write(html)
+
     def find_relations(self, data):
         self.subject = data['name']
         result = {'subject': data['name'], 'url': data['url'], 'relations': []}
@@ -21,14 +26,13 @@ class Relations_finder:
     def process_sentence(self, sentence):
         doc = self.nlp(sentence)
         self.generate_html(doc)
-        result = {}
         for token in doc:
             if token.pos_ == 'VERB':
                 result = self.process_from_verb(token)
                 result['sentence'] = sentence
-        if not all(list(result.values())):
-            result = None
-        return result
+                if not all(list(result.values())):
+                    result = None
+                return result
 
     def process_from_verb(self, token):
         relation = token.lemma_
@@ -52,6 +56,7 @@ class Relations_finder:
         for child in token.rights:
             if child.dep_ in ['dobj', 'pobj']:
                 objects.append(self.get_proper_noun(child))
+                objects += self.get_conjunctions(child)
         return list(filter(None, objects))
 
     def get_proper_noun(self, token):
@@ -62,11 +67,14 @@ class Relations_finder:
         for child in token.rights:
             if child.pos_ == 'PROPN':
                 return self.get_compound_form(child)
-        return None
+        adj = self.get_adjectives_text(token)
+        if adj:
+            return f'{adj} {self.get_compound_form(token)}'
+        return self.get_compound_form(token)
 
     def get_compound_form(self, token):
         compound_form = token.text
-        for child in token.lefts:
+        for child in reversed(list(token.lefts)):
             if child.dep_ == 'compound' and token.pos_ == child.pos_:
                 compound_form = f'{child.text} {compound_form}'
         for child in token.rights:
@@ -76,13 +84,28 @@ class Relations_finder:
             return self.subject
         return compound_form
 
+    def get_adjectives_text(self, token):
+        text = ''
+        for child in reversed(list(token.lefts)):
+            if child.pos_ == 'ADJ' and child.dep_ == 'amod':
+                if text:
+                    text = f'{child.text} {text}'
+                else:
+                    text = child.text
+        return text
+
     def get_proper_subject(self, token):
         if token.pos_ == 'PRON':
             return self.subject
         name = self.get_compound_form(token)
         return name
 
-    def generate_html(self, nlp_doc):
-        html = displacy.render([nlp_doc], style="dep", page=True)
-        with open('spacy.html', 'w') as out_file:
-            out_file.write(html)
+    def get_conjunctions(self, token):
+        result = []
+        queue = set(token.rights)
+        while queue:
+            child = queue.pop()
+            queue.update(child.rights)
+            if child.dep_ == 'conj':
+                result.append(self.get_proper_noun(child))
+        return result

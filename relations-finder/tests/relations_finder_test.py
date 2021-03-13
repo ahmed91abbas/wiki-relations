@@ -202,17 +202,22 @@ class Test_relations_finder(TestCase):
 
         self.assertEqual(expected, actual)
 
+    @patch.object(Relations_finder, 'get_adjectives_text')
     @patch.object(Relations_finder, 'get_compound_form')
-    def test_that_get_proper_noun_returns_none_if_token_is_noun_with_no_propn_childs(self, mock_get_compound_form):
+    def test_that_get_proper_noun_returns_compound_form_with_adjectives_if_token_is_noun(self, mock_get_compound_form, mock_get_adjectives_text):
         child = MagicMock()
         token = MagicMock()
         token.rights = [child]
         token.pos_ = 'NOUN'
-        child.pos_ = 'not PROPN'
+        compound_form = 'fake compound form'
+        adjectives = 'fake adjectives'
+        mock_get_compound_form.return_value = compound_form
+        mock_get_adjectives_text.return_value = adjectives
+        expected = f'{adjectives} {compound_form}'
 
         actual = self.finder.get_proper_noun(token)
 
-        self.assertIsNone(actual)
+        self.assertEqual(expected, actual)
 
     def test_that_get_compound_form_return_text_of_token_if_no_compound_child_found(self):
         token = MagicMock()
@@ -227,20 +232,22 @@ class Test_relations_finder(TestCase):
 
     def test_that_get_compound_form_return_correct_text_representation_of_token(self):
         token = MagicMock()
+        furthest_left_child = MagicMock()
         left_child = MagicMock()
         right_child = MagicMock()
-        left_child.dep_ = 'compound'
-        right_child.dep_ = 'compound'
-        token.pos_ = left_child.pos_ = right_child.pos_ = 'fake pos'
+        furthest_left_child.dep_ = left_child.dep_ = right_child.dep_ = 'compound'
+        token.pos_ = furthest_left_child.pos_ = left_child.pos_ = right_child.pos_ = 'fake pos'
+        furthest_left_child_text = 'Bob'
         left_text = 'foo'
         token_text = 'bar'
         right_text = 'baz'
         token.text = token_text
+        furthest_left_child.text = furthest_left_child_text
         left_child.text = left_text
         right_child.text = right_text
-        token.lefts = [left_child]
+        token.lefts = [furthest_left_child, left_child]
         token.rights = [right_child]
-        expected = f'{left_text} {token_text} {right_text}'
+        expected = f'{furthest_left_child_text} {left_text} {token_text} {right_text}'
 
         actual = self.finder.get_compound_form(token)
 
@@ -266,5 +273,56 @@ class Test_relations_finder(TestCase):
         mock_get_compound_form.return_value = expected
 
         actual = self.finder.get_proper_subject(token)
+
+        self.assertEqual(expected, actual)
+
+    def test_that_get_conjunctions_return_list_of_all_proper_noun_conjunctions(self):
+        token = MagicMock()
+        child = MagicMock()
+        another_child = MagicMock()
+        child_of_child = MagicMock()
+        child.dep_ = child_of_child.dep_ = 'conj'
+        another_child.dep_ = 'not conj'
+        child.pos_ = another_child.pos_ = child_of_child.pos_ = 'PROPN'
+        child_text = 'foo'
+        child_of_child_text = 'bar'
+        child.text = child_text
+        child_of_child.text = child_of_child_text
+        token.rights = [child, another_child]
+        child.rights = [child_of_child]
+        expected = [child_text, child_of_child_text]
+
+        actual = self.finder.get_conjunctions(token)
+
+        self.assertListEqual(expected, actual)
+
+    def test_that_get_adjectives_text_return_token_adjective_text(self):
+        token = MagicMock()
+        child = MagicMock()
+        child.dep_ = 'amod'
+        child.pos_ = 'ADJ'
+        child_text = 'foo'
+        child.text = child_text
+        token.lefts = [child]
+        expected = child_text
+
+        actual = self.finder.get_adjectives_text(token)
+
+        self.assertEqual(expected, actual)
+
+    def test_that_get_adjectives_text_return_all_token_adjectives_text(self):
+        token = MagicMock()
+        child = MagicMock()
+        another_child = MagicMock()
+        child.dep_ = another_child.dep_ = 'amod'
+        child.pos_ = another_child.pos_ = 'ADJ'
+        child_text = 'foo'
+        another_child_text = 'bar'
+        child.text = child_text
+        another_child.text = another_child_text
+        token.lefts = [child, another_child]
+        expected = f'{child_text} {another_child_text}'
+
+        actual = self.finder.get_adjectives_text(token)
 
         self.assertEqual(expected, actual)

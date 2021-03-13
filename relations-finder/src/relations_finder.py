@@ -72,7 +72,7 @@ class Relations_finder:
 
     def get_compound_form(self, token):
         compound_form = token.text
-        for child in token.lefts:
+        for child in reversed(list(token.lefts)):
             if child.dep_ == 'compound' and token.pos_ == child.pos_:
                 compound_form = f'{child.text} {compound_form}'
         for child in token.rights:

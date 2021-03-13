@@ -227,20 +227,22 @@ class Test_relations_finder(TestCase):
 
     def test_that_get_compound_form_return_correct_text_representation_of_token(self):
         token = MagicMock()
+        furthest_left_child = MagicMock()
         left_child = MagicMock()
         right_child = MagicMock()
-        left_child.dep_ = 'compound'
-        right_child.dep_ = 'compound'
-        token.pos_ = left_child.pos_ = right_child.pos_ = 'fake pos'
+        furthest_left_child.dep_ = left_child.dep_ = right_child.dep_ = 'compound'
+        token.pos_ = furthest_left_child.pos_ = left_child.pos_ = right_child.pos_ = 'fake pos'
+        furthest_left_child_text = 'Bob'
         left_text = 'foo'
         token_text = 'bar'
         right_text = 'baz'
         token.text = token_text
+        furthest_left_child.text = furthest_left_child_text
         left_child.text = left_text
         right_child.text = right_text
-        token.lefts = [left_child]
+        token.lefts = [furthest_left_child, left_child]
         token.rights = [right_child]
-        expected = f'{left_text} {token_text} {right_text}'
+        expected = f'{furthest_left_child_text} {left_text} {token_text} {right_text}'
 
         actual = self.finder.get_compound_form(token)
 

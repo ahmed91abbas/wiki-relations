@@ -68,7 +68,10 @@ class Relations_finder:
         for child in token.rights:
             if child.pos_ == 'PROPN':
                 return self.get_compound_form(child)
-        return None
+        adj = self.get_adjectives_text(token)
+        if adj:
+            return f'{adj} {self.get_compound_form(token)}'
+        return self.get_compound_form(token)
 
     def get_compound_form(self, token):
         compound_form = token.text
@@ -81,6 +84,16 @@ class Relations_finder:
         if compound_form.lower() in self.subject.lower().split(' '):
             return self.subject
         return compound_form
+
+    def get_adjectives_text(self, token):
+        text = ''
+        for child in reversed(list(token.lefts)):
+            if child.pos_ == 'ADJ' and child.dep_ == 'amod':
+                if text:
+                    text = f'{child.text} {text}'
+                else:
+                    text = child.text
+        return text
 
     def get_proper_subject(self, token):
         if token.pos_ == 'PRON':

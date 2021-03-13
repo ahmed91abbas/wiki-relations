@@ -14,13 +14,14 @@ const INFO_PRE_ID = 'infoPreId'
 const INFO_ID = 'infoId'
 
 async function onSubmit (title) {
+  document.getElementById(INFO_ID).value = title
   const element = document.getElementById('submitBtn')
   element.classList.add('is-loading')
   const response = await getRelations(title)
-  element.classList.remove('is-loading')
   if (response) {
     updateGraph(response.subject)
   }
+  element.classList.remove('is-loading')
 }
 
 function handleKeyPress (event) {
@@ -74,6 +75,7 @@ const App = () => {
         neo4jUser={NEO4J_USER}
         neo4jPassword={NEO4J_PASSWORD}
         infoPreId={INFO_PRE_ID}
+        onSubmitFunction={onSubmit}
       />
       <pre className='padding info bg' id={INFO_PRE_ID} />
     </div>

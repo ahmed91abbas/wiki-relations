@@ -5,6 +5,7 @@ import Neovis from 'neovis.js/dist/neovis.js'
 import './NeoGraph.css'
 
 let vis
+let onSubmit
 
 const NeoGraph = props => {
   const {
@@ -14,10 +15,12 @@ const NeoGraph = props => {
     neo4jUri,
     neo4jUser,
     neo4jPassword,
-    infoPreId
+    infoPreId,
+    onSubmitFunction
   } = props
 
   const visRef = useRef()
+  onSubmit = onSubmitFunction
 
   useEffect(() => {
     const config = {
@@ -43,8 +46,7 @@ const NeoGraph = props => {
           sentence: 'sentence',
           caption: 'relation'
         }
-      },
-      initial_cypher: 'Match (n)-[r:RELATIONS]->(m) Return *'
+      }
     }
     vis = new Neovis(config)
     vis.registerOnEvent('completed', () => {
@@ -134,8 +136,7 @@ function clickHandler (event, infoPreId) {
 
 function doubleClickHandler (event) {
   if (event.nodes[0] !== undefined) {
-    const name = vis._network.body.nodes[event.nodes[0]].options.raw.properties.name
-    console.log(name)
+    onSubmit(vis._network.body.nodes[event.nodes[0]].options.raw.properties.name)
   }
 }
 

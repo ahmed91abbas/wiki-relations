@@ -1,4 +1,5 @@
 DOCKER_IMAGE = relations-finder
+COMMAND?=find-relations
 
 
 .PHONY: build
@@ -16,18 +17,10 @@ test: build
 		-v $(realpath ./tests):/src/tests \
 		${DOCKER_IMAGE} -m pytest tests
 
-.PHONY: create-graph
-create-graph:
-	COMMAND=create-graph docker-compose up -d --build
-
-.PHONY: clean-graph
-clean-graph:
-	COMMAND=clean-graph docker-compose up -d --build
-
-.PHONY: find-relations
-find-relations: build
+.PHONY: run
+run: build
 	mkdir -p outdata
 	touch $(realpath ./outdata)/spacy.html
 	docker run --rm \
-	-v $(realpath ./outdata)/spacy.html:/src/spacy.html \
-	${DOCKER_IMAGE} main.py find-relations
+		-v $(realpath ./outdata)/spacy.html:/src/spacy.html \
+		${DOCKER_IMAGE} local_runner.py ${COMMAND}

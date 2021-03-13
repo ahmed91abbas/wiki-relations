@@ -12,16 +12,6 @@ services:
       - 7474:7474
       - 7687:7687
 
-  main:
-    build: ./relations-finder
-    command: ["main.py", "${COMMAND:---help}"]
-    environment:
-      - NEO4J_USERNAME=neo4j
-      - NEO4J_PASSWORD=test
-      - NEO4J_URI=neo4j://neo4j:7687
-    depends_on:
-      - neo4j
-
   relations-finder:
     build: ./relations-finder
     command: ["app.py"]

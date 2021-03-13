@@ -26,14 +26,13 @@ class Relations_finder:
     def process_sentence(self, sentence):
         doc = self.nlp(sentence)
         self.generate_html(doc)
-        result = {}
         for token in doc:
             if token.pos_ == 'VERB':
                 result = self.process_from_verb(token)
                 result['sentence'] = sentence
-        if not all(list(result.values())):
-            result = None
-        return result
+                if not all(list(result.values())):
+                    result = None
+                return result
 
     def process_from_verb(self, token):
         relation = token.lemma_

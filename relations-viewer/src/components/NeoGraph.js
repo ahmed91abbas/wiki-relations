@@ -157,7 +157,7 @@ function hideAll (name) {
 }
 
 function updateGraph (name) {
-  vis.updateWithCypher(`MATCH (n {name:"${name}"})-[*]-(connected) Match ()-[r:RELATIONS]->() Return *`)
+  vis.updateWithCypher('Match (n)-[r]->(m) Return *')
 }
 
 export { ResponsiveNeoGraph, showAll, stabilize, clearAll, hideAll, updateGraph }

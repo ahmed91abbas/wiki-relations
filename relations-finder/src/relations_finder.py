@@ -7,6 +7,11 @@ class Relations_finder:
         self.subject = ''
         self.nlp = en_core_web_sm.load()
 
+    def generate_html(self, nlp_doc):
+        html = displacy.render([nlp_doc], style="dep", page=True)
+        with open('spacy.html', 'w') as out_file:
+            out_file.write(html)
+
     def find_relations(self, data):
         self.subject = data['name']
         result = {'subject': data['name'], 'url': data['url'], 'relations': []}
@@ -52,6 +57,7 @@ class Relations_finder:
         for child in token.rights:
             if child.dep_ in ['dobj', 'pobj']:
                 objects.append(self.get_proper_noun(child))
+                objects += self.get_conjunctions(child)
         return list(filter(None, objects))
 
     def get_proper_noun(self, token):
@@ -82,7 +88,12 @@ class Relations_finder:
         name = self.get_compound_form(token)
         return name
 
-    def generate_html(self, nlp_doc):
-        html = displacy.render([nlp_doc], style="dep", page=True)
-        with open('spacy.html', 'w') as out_file:
-            out_file.write(html)
+    def get_conjunctions(self, token):
+        result = []
+        queue = set(token.rights)
+        while queue:
+            child = queue.pop()
+            queue.update(child.rights)
+            if child.dep_ == 'conj':
+                result.append(self.get_proper_noun(child))
+        return result

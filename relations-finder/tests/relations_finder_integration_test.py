@@ -18,6 +18,7 @@ class Test_relations_finder(TestCase):
         ('He influenced Baz.', 'Foo Bar', 'influence', ['Baz']),
         ('Bar influenced Foo.', 'Foo Bar', 'influence', ['Foo Bar']),
         ('he met fellow student Fake Name.', 'Foo Bar', 'meet', ['Fake Name']),
+        ('Anna was also influenced by Fake Name, Ahmed, Carl Xon and Toto.', 'Anna', 'influence by', ['Fake Name', 'Ahmed', 'Carl Xon', 'Toto']),
     ])
     @patch.object(Relations_finder, 'generate_html')
     def test_for_subject_verb_object(self, sentence, subject, relation, objects, mock_generate_html):

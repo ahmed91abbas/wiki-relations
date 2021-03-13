@@ -268,3 +268,23 @@ class Test_relations_finder(TestCase):
         actual = self.finder.get_proper_subject(token)
 
         self.assertEqual(expected, actual)
+
+    def test_that_get_conjunctions_return_list_of_all_proper_noun_conjunctions(self):
+        token = MagicMock()
+        child = MagicMock()
+        another_child = MagicMock()
+        child_of_child = MagicMock()
+        child.dep_ = child_of_child.dep_ = 'conj'
+        another_child.dep_ = 'not conj'
+        child.pos_ = another_child.pos_ = child_of_child.pos_ = 'PROPN'
+        child_text = 'foo'
+        child_of_child_text = 'bar'
+        child.text = child_text
+        child_of_child.text = child_of_child_text
+        token.rights = [child, another_child]
+        child.rights = [child_of_child]
+        expected = [child_text, child_of_child_text]
+
+        actual = self.finder.get_conjunctions(token)
+
+        self.assertListEqual(expected, actual)

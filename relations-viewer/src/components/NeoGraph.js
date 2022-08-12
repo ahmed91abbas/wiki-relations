@@ -64,7 +64,7 @@ const NeoGraph = props => {
     <div
       id={containerId}
       ref={visRef}
-      className='Neovis'
+      className='neovis'
       style={{
         width: `${width}px`,
         height: `${height}px`

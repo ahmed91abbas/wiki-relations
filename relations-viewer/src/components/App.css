@@ -1,9 +1,9 @@
-@import url("https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css");
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css";
 
 .submit-button {
   width: 8%;
   outline: 0;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
   margin: 0 10px;
 }
 
@@ -12,7 +12,7 @@
   font-size: 26px;
   margin: auto;
   outline: 0;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
 }
 
 .padding {
